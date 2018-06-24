@@ -110,7 +110,7 @@ const getCompetitionPoints = (team, data) => {
 
 const selections = [
   { name: "dan",
-    teams: [ "Germany", "Denmark", "Panama", "Saudia Arabia"]
+    teams: [ "Germany", "Denmark", "Panama", "Saudi Arabia"]
   },
   { name: "joel",
     teams: [ "Uruguay", "Portugal", "England", "Morocco"]
@@ -128,8 +128,6 @@ const selections = [
     teams: ["Spain", "Poland", "Denmark", "Iceland"]
   }
 ]
-
-
 
 express()
 .get('/', (req, resp) => {
