@@ -11,8 +11,10 @@
   "dependencies": {
     "express": "^4.16.3",
     "fetch": "^1.1.0",
+    "jade": "^1.11.0",
     "jq.node": "^2.1.1",
     "node-fetch": "^2.1.2",
+    "pug": "^2.0.3",
     "underscore": "^1.9.1"
   }
 }

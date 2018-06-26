@@ -1,0 +1,36 @@
+html(lang="en")
+  head
+    link(rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css")
+    link(rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css")
+    link(href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet")
+    style
+      include style.css
+  body
+    nav(class="navbar navbar-light red")
+      a.navbar-brand(href="#") <i class="far fa-futbol"></i>World Cup Standings
+    .container
+      .media
+        img.mr-3.align-self-center(src="https://givemesport.azureedge.net/images/18/03/27/576a5230cc608662d0fc686ffce5c58b/690.jpg")
+        .media-body
+          table(class="table table-striped table-bordered")
+            thead
+              tr
+                th(scope="col") Contestant
+                th(scope="col") Goals
+                th(scope="col") Group
+                th(scope="col") Quarters
+                th(scope="col") Semis
+                th(scope="col") Finals
+                th(scope="col") Winner
+                th(scope="col") Total
+            tbody
+            each val in data
+              tr
+                td= val.name
+                td= val.goals
+                td= val.group
+                td= val.quarter
+                td= val.semis
+                td= val.finals
+                td= val.winner
+                td= val.points 

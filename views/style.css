@@ -1,0 +1,30 @@
+body {
+  font-family: 'Roboto';
+}
+
+.table td {
+ text-align: center;   
+}
+
+.red {
+  background-color: rgba(211, 2, 8, .5);
+}
+
+.creme {
+  color: #F5EED5
+}
+
+.blue {
+  background-color: #0074B1
+}
+
+.table-striped>tbody>tr:nth-child(odd)>td, 
+.table-striped>tbody>tr:nth-child(odd)>th {
+   background-color: rgba(0, 116, 177, .4); 
+ }
+
+.table-striped>tbody>tr:nth-child(even)>td, 
+.table-striped>tbody>tr:nth-child(even)>th {
+   background-color: rgba(245, 238, 213, .4);
+ }
+

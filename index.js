@@ -9,10 +9,8 @@ const getData = async ()=>{
   return json
 }
 
-
-
 const getGoals = (team, data) => {
-  let matches = data.fixtures.filter((match) => match.status == "FINISHED" && (match.homeTeamName == team || match.awayTeamName == team))
+  let matches = data.fixtures.filter((match) => (match.homeTeamName == team || match.awayTeamName == team))
   let goals = matches.reduce((goals, match) => (match.homeTeamName == team ? goals + match.result.goalsHomeTeam : goals + match.result.goalsAwayTeam), 0)
   let goalsAgainst = matches.reduce((goals, match) => (match.homeTeamName != team ? goals + match.result.goalsHomeTeam : goals + match.result.goalsAwayTeam), 0)
   return { goals: goals, goalsAgainst: goalsAgainst }
@@ -49,8 +47,17 @@ const getGroupPoints = (team, data) => {
 const getGroupStandings = (team, data) => {
   let teams = getGroupTeams(team, data)
   let standings = _.chain(teams)
-  .map((team)=> ({ team: team, points: getGroupPoints(team, data) }))
-  .sortBy((standing)=> 1 - standing.points)
+  .map((team)=>{ 
+    let goals = getGoals(team, data)
+    return { 
+      team: team,
+      points: getGroupPoints(team, data),
+      goalDiff: goals.goals - goals.goalsAgainst
+    }
+  })
+  .sortBy('goalDiff')
+  .sortBy('points')
+  .reverse()
   .value()
   return standings
 }
@@ -109,38 +116,52 @@ const getCompetitionPoints = (team, data) => {
 
 
 const selections = [
-  { name: "dan",
+  { name: "Dan",
     teams: [ "Germany", "Denmark", "Panama", "Saudi Arabia"]
   },
-  { name: "joel",
+  { name: "Joel",
     teams: [ "Uruguay", "Portugal", "England", "Morocco"]
   },
-  { name: "scott",
+  { name: "Scott",
     teams: ["Uruguay", "Russia", "Poland", "Denmark"]
   },
-  { name: "tim",
+  { name: "Tim",
     teams: ["Brazil", "Mexico", "Nigeria", "Serbia" ]
   },
-  { name: "phil",
+  { name: "Phil",
     teams: ["Columbia", "Uruguay", "Portugal", "Denmark" ]
   },
-  { name: "shelly",
+  { name: "Shelly",
     teams: ["Spain", "Poland", "Denmark", "Iceland"]
   }
 ]
 
-express()
-.get('/', (req, resp) => {
-  getData().then((data)=>{
-    let standings = selections.map((contestant)=>{
-      let points = contestant.teams.reduce((points, team)=> points + getCompetitionPoints(team, data),0)
-      points = Math.round(points * 100) / 100
-      return { name: contestant.name, points: points }
-    })
-    standings = _.chain(standings)
-    .sortBy((standing)=> 1 - standing.points)
-    .value()
-    resp.json(standings)
+const calculate = (data)=>{
+  let standings = selections.map((contestant)=>{
+    let points = contestant.teams.reduce((points, team)=> points + getCompetitionPoints(team,
+data),0)
+    points = Math.round(points * 100) / 100
+    let goals = contestant.teams.reduce((points, team)=> points + getGoalPoints(team, data),0)
+    goals = Math.round(goals * 100) / 100
+    let group = contestant.teams.reduce((points, team)=> points + getGroupStagePoints(team, data),0)
+    let quarter = contestant.teams.reduce((points, team)=> points + wonRoundOf16(team, data),0)
+    let semis = contestant.teams.reduce((points, team)=> points + wonRoundOf8(team, data),0)
+    let finals = contestant.teams.reduce((points, team)=> points + wonRoundOf4(team, data),0)
+    let winner = contestant.teams.reduce((points, team)=> points + wonRoundOf2(team, data),0)
+    return { name: contestant.name, points: points, goals: goals, group: group, quarter: quarter, semis: semis, finals: finals, winner: winner}
   })
+  standings = _.chain(standings)
+  .sortBy((standing)=> 1 - standing.points)
+  .value()
+  return standings
+}
+
+let app = express()
+app.set('view engine', 'pug')
+
+app
+.get('/', (req, resp) => {
+  getData().then(calculate)
+  .then((data)=> resp.render('index', {data:data}))
 })
 .listen(PORT)
