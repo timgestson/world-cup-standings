@@ -117,22 +117,130 @@ const getCompetitionPoints = (team, data) => {
 
 const selections = [
   { name: "Dan",
-    teams: [ "Germany", "Denmark", "Panama", "Saudi Arabia"]
+    teams: [ "Germany", "Denmark", "Panama", "Saudi Arabia"],
+    salaries: [
+      {
+        team: "Germany",
+        salary: 61
+      },
+      { 
+        team: "Denmark",
+        salary: 17
+      },
+      {
+        team: "Panama",
+        salary: 11
+      },
+      {
+        team: "Saudi Arabia",
+        salary: 11
+      }
+    ]
   },
   { name: "Joel",
-    teams: [ "Uruguay", "Portugal", "England", "Morocco"]
+    teams: [ "Uruguay", "Portugal", "England", "Morocco"],
+    salaries: [
+      {
+        team: "Uruguay",
+        salary: 30
+      },
+      { 
+        team: "Portugal",
+        salary: 26
+      },
+      {
+        team: "England",
+        salary: 32
+      },
+      {
+        team: "Morocco",
+        salary: 12
+      }
+    ]
   },
   { name: "Scott",
-    teams: ["Uruguay", "Russia", "Poland", "Denmark"]
+    teams: ["Uruguay", "Russia", "Poland", "Denmark"],
+    salaries: [
+      {
+        team: "Uruguay",
+        salary: 30
+      },
+      { 
+        team: "Russia",
+        salary: 26
+      },
+      {
+        team: "Poland",
+        salary: 23
+      },
+      {
+        team: "Denmark",
+        salary: 17
+      }
+    ]
   },
   { name: "Tim",
-    teams: ["Brazil", "Mexico", "Nigeria", "Serbia" ]
+    teams: ["Brazil", "Mexico", "Nigeria", "Serbia" ],
+    salaries: [
+      {
+        team: "Brazil",
+        salary: 54
+      },
+      { 
+        team: "Mexico",
+        salary: 17
+      },
+      {
+        team: "Nigeria",
+        salary: 13
+      },
+      {
+        team: "Serbia",
+        salary: 15
+      }
+    ]
   },
   { name: "Phil",
-    teams: ["Columbia", "Uruguay", "Portugal", "Denmark" ]
+    teams: ["Columbia", "Uruguay", "Portugal", "Denmark" ],
+    salaries: [
+      {
+        team: "Uruguay",
+        salary: 30
+      },
+      { 
+        team: "Portugal",
+        salary: 26
+      },
+      {
+        team: "Columbia",
+        salary: 27
+      },
+      {
+        team: "Denmark",
+        salary: 17
+      }
+    ]
   },
   { name: "Shelly",
-    teams: ["Spain", "Poland", "Denmark", "Iceland"]
+    teams: ["Spain", "Poland", "Denmark", "Iceland"],
+    salaries: [
+      {
+        team: "Spain",
+        salary: 47
+      },
+      { 
+        team: "Poland",
+        salary: 23
+      },
+      {
+        team: "Denmark",
+        salary: 17
+      },
+      {
+        team: "Iceland",
+        salary: 13
+      }
+    ]
   }
 ]
 
@@ -153,15 +261,25 @@ data),0)
   standings = _.chain(standings)
   .sortBy((standing)=> 1 - standing.points)
   .value()
-  return standings
+
+  let details = selections.map((person)=>{
+    person.salaries = person.salaries.map((team)=>{
+      team.points = getCompetitionPoints(team.team, data)
+      team.points = Math.round(team.points * 100) / 100
+      return team
+    })
+    return person
+  })
+  return { standings: standings, details: details }
 }
 
 let app = express()
 app.set('view engine', 'pug')
+app.use('/static', express.static('public'))
 
 app
 .get('/', (req, resp) => {
   getData().then(calculate)
-  .then((data)=> resp.render('index', {data:data}))
+  .then((data)=> resp.render('index', {standings: data.standings, details: data.details}))
 })
 .listen(PORT)

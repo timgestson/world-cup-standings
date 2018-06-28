@@ -6,13 +6,20 @@ html(lang="en")
     style
       include style.css
   body
-    nav(class="navbar navbar-light red")
+    nav(class="navbar navbar-light navbar-expand-lg red")
       a.navbar-brand(href="#") <i class="far fa-futbol"></i>World Cup Standings
+      .collapse.navbar-collapse
+        ul.navbar-nav.mr-auto
+          li.nav-item
+            a.nav-link(href="/static/script.txt") SalaryCalculations
+          li.nav-item
+            a.nav-link(href="/static/odds.csv") Odds
     .container
-      .media
-        img.mr-3.align-self-center(src="https://givemesport.azureedge.net/images/18/03/27/576a5230cc608662d0fc686ffce5c58b/690.jpg")
-        .media-body
-          table(class="table table-striped table-bordered")
+      .row
+        .col-6
+          img.img-thumbnail.rounded(src="http://a1.espncdn.com/combiner/i?img=%2Fphoto%2F2015%2F0130%2Fsoc_g_mueller11_1296x729.jpg")
+        .col-6
+          table(class="table table-striped table-bordered small")
             thead
               tr
                 th(scope="col") Contestant
@@ -24,7 +31,7 @@ html(lang="en")
                 th(scope="col") Winner
                 th(scope="col") Total
             tbody
-            each val in data
+            each val in standings
               tr
                 td= val.name
                 td= val.goals
@@ -33,4 +40,16 @@ html(lang="en")
                 td= val.semis
                 td= val.finals
                 td= val.winner
-                td= val.points 
+                td= val.points
+    .container
+      .row
+        .nothing
+        each detail in details
+          .col-2
+            ul.list-group
+              li.list-group-item= detail.name
+              each team in detail.salaries
+                li.list-group-item 
+                  small #{team.team} ($#{team.salary}) #{team.points}
+
+
