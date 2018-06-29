@@ -246,8 +246,7 @@ const selections = [
 
 const calculate = (data)=>{
   let standings = selections.map((contestant)=>{
-    let points = contestant.teams.reduce((points, team)=> points + getCompetitionPoints(team,
-data),0)
+    let points = contestant.teams.reduce((points, team)=> points + getCompetitionPoints(team, data),0)
     points = Math.round(points * 100) / 100
     let goals = contestant.teams.reduce((points, team)=> points + getGoalPoints(team, data),0)
     goals = Math.round(goals * 100) / 100

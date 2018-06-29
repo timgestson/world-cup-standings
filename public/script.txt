@@ -17,7 +17,7 @@ def create_salary(row):
     salary = (((4 * win) + (3 * finals) + (2 * semis) + quarters + (group * 2)) / 6) * 90
     return salary
 
-teams = p.read_csv('./teams.csv')
+teams = p.read_csv('./odds.csv')
 teams['salary'] = teams.apply(create_salary, axis=1)
 mean = teams['salary'].mean()
 teams['adj_salary'] = teams.apply(lambda team: round(mean + 0.6 * (team.salary - mean)), axis=1)
