@@ -50,7 +50,7 @@ html(lang="en")
             if detail.name == "Dan"
               li.list-group-item
                 i.fas.fa-trash-alt
-                | #{detail.name}
+                | &nbsp #{detail.name}
               each team in detail.salaries
                 li.list-group-item 
                   small #{team.team} ($#{team.salary}) #{team.points}
