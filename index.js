@@ -201,7 +201,7 @@ const selections = [
     ]
   },
   { name: "Phil",
-    teams: ["Columbia", "Uruguay", "Portugal", "Denmark" ],
+    teams: ["Colombia", "Uruguay", "Portugal", "Denmark" ],
     salaries: [
       {
         team: "Uruguay",
@@ -212,7 +212,7 @@ const selections = [
         salary: 26
       },
       {
-        team: "Columbia",
+        team: "Colombia",
         salary: 27
       },
       {
