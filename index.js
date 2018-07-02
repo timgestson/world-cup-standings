@@ -87,6 +87,8 @@ const wonMatchDay = (team, data, day) => {
     let match = matches[0]
     if((match.homeTeamName == team && match.result.goalsHomeTeam > match.result.goalsAwayTeam) || (match.awayTeamName == team && match.result.goalsAwayTeam > match.result.goalsHomeTeam))
       return 1
+    else if(match.result.goalsHomeTeam == match.result.goalsAwayTeam && ((match.homeTeamName == team && match.result.penaltyShootout.goalsHomeTeam > match.result.penaltyShootout.goalsAwayTeam) || (match.awayTeamName == team && match.result.penaltyShootout.goalsAwayTeam > match.result.penaltyShootout.goalsHomeTeam))) // won in penalties
+      return 1  
     else
       return 0
   }else{
