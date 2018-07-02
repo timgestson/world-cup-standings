@@ -1,5 +1,14 @@
-body {
+@font-face {
+  font-family: 'WorldCup';
+  src: url('static/fifa-font.tff') format('truetype');
+}
+
+body{
   font-family: 'Roboto';
+}
+
+nav{
+  font-family: 'WorldCup';
 }
 
 .table td {

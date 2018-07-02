@@ -17,7 +17,7 @@ html(lang="en")
     .container
       .row
         .col-6
-          img.img-thumbnail.rounded(src="http://a1.espncdn.com/combiner/i?img=%2Fphoto%2F2015%2F0130%2Fsoc_g_mueller11_1296x729.jpg")
+          img.img-thumbnail.rounded(src="https://givemesport.azureedge.net/images/18/07/01/352dd5dc8ccf63228583d201065edc3a/960.jpg")
         .col-6
           table(class="table table-striped table-bordered small")
             thead
@@ -48,14 +48,14 @@ html(lang="en")
           .col-2
             ul.list-group
             if detail.name == "Dan"
-              li.list-group-item
+              li.list-group-item.top
                 i.fas.fa-trash-alt
                 | &nbsp #{detail.name}
               each team in detail.salaries
-                li.list-group-item 
+                li.list-group-item
                   small #{team.team} ($#{team.salary}) #{team.points}
             else
-              li.list-group-item= detail.name
+              li.list-group-item.top= detail.name
               each team in detail.salaries
                 li.list-group-item 
                   small #{team.team} ($#{team.salary}) #{team.points}
